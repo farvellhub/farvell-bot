@@ -1,4 +1,22 @@
 {   
     "prefix": "!",
+    "commands": {
+        "play": "!play",
+        "skip": "!skip",
+        "stop": "!stop",
+        "loop": "!loop",
+        "list": "!list",
+        "help": "!help"
+    },
+    "volume": 50,
+    "playlist": {
+        "edm": "https://www.youtube.com/watch?v=rklImmR-lko",
+        "lofi": "https://www.youtube.com/watch?v=tgI6PjEq0O8",
+        "electro": "https://youtu.be/1D_hy3itHsg",
+        "travis": "https://www.youtube.com/watch?v=-4b_0Iq2q5M",
+        "gaming": "https://youtu.be/K8w7-4ZEHV4",
+        "hard": "https://www.youtube.com/watch?v=srRf9anlerw"
+    },
+
     "token": "token"
 }
