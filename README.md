@@ -27,15 +27,15 @@ Fun bot with music comand. Music commands made it with DisTube API.
   `.volume:` set new volume.
   
 # Fun commands
-  `.meme:` play or add a song to the queue.
+  `.meme:` Show random meme from reddit.
   
-  `.gif:` stop reproducing.
+  `.gif:` Search gif on Tenor.
   
-  `.kick:` next song in the queue.
+  `.kick:` Kick a user.
   
-  `.kiss:` lists all songs.
+  `.kiss:` Send a kiss.
   
-  `.sub:` .
+  `.sub:` Private alert.
   
 # Util commands  
-  `.ping:` play or add a song to the queue.
+  `.ping:` Show the ping.
