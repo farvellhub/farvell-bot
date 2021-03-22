@@ -21,6 +21,7 @@
     "@discordjs/opus": "^0.5.0",
     "discord.js": "^12.5.1",
     "distube": "^2.8.11",
+    "dotenv": "^8.2.0",
     "ffmpeg": "^0.0.4",
     "got": "^11.8.2",
     "python": "^0.0.4"

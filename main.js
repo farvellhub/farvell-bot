@@ -4,6 +4,7 @@ const Discord = require( "discord.js" ),
     got = require( "got" ),
     config = require( "./config.json" );
 
+require( "dotenv" ).config();
 
 const distube = new DisTube(client, {
     searchSongs: true,
@@ -49,6 +50,8 @@ function route( message, { command , body } ) {
             return volume( message, body );
         case "meme":
             return meme( message );
+        case "gif":
+            return gif( message, body );
         case "avatar":
             return avatar( message, body );
         case "kick":
@@ -101,7 +104,7 @@ function stop( message ) {
 }
 
 function comproveQueue( message ) {
-    let queue = distube.getQueue( message );
+    const queue = distube.getQueue( message );
     if ( !queue ){
         msgEmbed( message, "RED", "Wrong!", "There is no queue" );
         return;
@@ -140,12 +143,23 @@ function volume( message, body ) {
 
 function meme( message ) {
     got("https://www.reddit.com/r/memes/random/.json").then(( response ) => {
-        let content = JSON.parse( response.body ),
+        const content = JSON.parse( response.body ),
             dataMeme = content[0].data.children[0].data,
             memeImage = dataMeme.url,
             memeTitle = dataMeme.title;
 
         return msgEmbed( message, "BLUE", "MEME!", `${ memeTitle }`, memeImage )
+    })
+}
+
+function gif( message, body ) {
+    got(`https://g.tenor.com/v1/search?q=${ body }&key=${ process.env.TENORKEY }&limit=8`).then(( response ) => {
+        const content = JSON.parse( response.body ),
+            gifImage = content.results[
+                Math.floor(Math.random() * Math.floor( content.results.length ))
+            ].media[0].gif.url;
+
+        return msgEmbed( message, "BLUE", "GIF!", "", gifImage )
     })
 }
 
@@ -320,4 +334,4 @@ distube
         msgEmbed( message, "RED",  "An error encountered: ", e );
     });
 
-client.login( config.token );
+client.login( process.env.TOKEN );
