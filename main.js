@@ -79,12 +79,14 @@ function ping( message ) {
     );
 }
 
-function executePlay( message, body ) {
+async function executePlay( message, body ) {
     if ( !body ) return msgEmbed( message, "RED", "Wrong!", "No search key specified" );
 
     if ( !message.member.voice.channel ) return msgEmbed( message, "RED", "Wrong!", "You must be in a voice channel");
 
-    return distube.play( message, body );
+    await distube.play( message, body );
+
+    return distube.setVolume( message, 5 )
 }
 
 function skip( message ) {
@@ -296,7 +298,6 @@ const status = ( queue ) => `Volume: \`${ queue.volume }0%\` | Filter: \`${ queu
 
 distube
     .on("playSong", ( message, queue, song ) => {
-        queue.dispatcher.setVolumeLogarithmic( 0.2 );
         msgEmbed( message, "BLUE",
             `Playing ${ song.name } - \`${ song.formattedDuration }\``,
             `${ status( queue ) }\n`,
