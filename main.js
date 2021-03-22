@@ -278,7 +278,7 @@ function getArgs( message ) {
 }
 
 
-const status = ( queue ) => `Volume: \`${ queue.volume }%\` | Filter: \`${ queue.filter || "Off" }\` | Autoplay: \`${ queue.autoplay ? "On" : "Off" }\``;
+const status = ( queue ) => `Volume: \`${ queue.volume }0%\` | Filter: \`${ queue.filter || "Off" }\` | Autoplay: \`${ queue.autoplay ? "On" : "Off" }\``;
 
 distube
     .on("playSong", ( message, queue, song ) => {
