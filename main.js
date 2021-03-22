@@ -38,6 +38,8 @@ function route( message, { command , body } ) {
     switch ( command ) {
         case "ping":
             return ping( message );
+        case "clear":
+            return clear( message, body );
         case "play":
             return executePlay( message, body );
         case "skip":
@@ -77,6 +79,16 @@ function ping( message ) {
     return msgEmbed( message, "BLUE", "PING!",
         `\`${ client.ws.ping }ms\`` 
     );
+}
+
+function clear( message, body ) {
+    if ( body === "" ) body = 100;
+    if ( Number( body ) >= 0 && Number( body ) <= 100 ) {
+        message.channel.bulkDelete( body ).then(() => {
+            return msgEmbed( message, "YELLOW", "Clear!",
+            `Cleared the last ${ body } messages`)
+        });
+    }
 }
 
 async function executePlay( message, body ) {

@@ -7,6 +7,11 @@
             "value": ".ping"
         },
         {
+            "name": "clear",
+            "desc": "Clear lasts 100 messages",
+            "value": [".clear", ".clear [0-100]"]
+        },
+        {
             "name": "play",
             "desc": "Play or add a song.",
             "value": ".play searh-keys"
