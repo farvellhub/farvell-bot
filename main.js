@@ -63,8 +63,8 @@ function route( message, { command , body } ) {
         case "help":
             return help( message );
         default:
-            if( !message.content.includes( ".." ) 
-            || !message.content.includes( "._" ) ) {
+            if( !message.content.startsWith( ".." ) 
+            || !message.content.startsWith( "._" ) ) {
                 return msgEmbed( message, "RED", "Command not recognized",
                     `Try typing .help to see a description of all commands`
                 )
