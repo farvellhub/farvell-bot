@@ -1,218 +1,323 @@
-const Discord = require("discord.js"),
-    ytdl = require("ytdl-core");
+const Discord = require( "discord.js" ),
+    DisTube = require( "distube" ),
+    client = new Discord.Client(),
+    got = require( "got" ),
+    config = require( "./config.json" );
 
-const client = new Discord.Client();
-const config = require("./config.json");
+
+const distube = new DisTube(client, {
+    searchSongs: true,
+    emitNewSongOnly: true
+});
 
 client.on("ready", () => {
-  console.log( "Ready!" );
+    client.user.setActivity( 
+        "Lol: Wild Rift!",
+        { type: "PLAYING" }
+    );
+
+    return console.log( 
+        `Bot started as ${ client.user.tag }`
+    );
 });
 
-
-const queue = new Map();
-
-function show( msg, obj ) {
-    let index = 0;
-
-    for ( const o in obj ) {
-        msg.channel.send(
-            `${ ++index }. ${ o }: ${ obj[ o ] }`
-        );
-    }
-}
-
-client.on("message", async ( msg ) => {
+client.on("message", ( msg ) => { 
 
     if ( msg.author.bot ) return;
-    if ( !msg.content.startsWith( config.prefix ) ) return;
+    if ( !msg.guild ) return;
 
-    const serverQueue = queue.get( msg.guild.id );
+    const args = getArgs( msg );
 
-    if ( msg.content.startsWith( config.commands.play ) )
-        return execute( msg, serverQueue );
-
-    if ( msg.content.startsWith( config.commands.skip ) )
-        return skip( msg, serverQueue );
-
-    if ( msg.content.startsWith( config.commands.stop ) )
-        return stop( msg, serverQueue );
-
-    if ( msg.content.startsWith( config.commands.list ) )
-        return show( msg, config.playlist );
-
-    if ( msg.content.startsWith( config.commands.help ) )
-        return show( msg, config.commands );
-
-    return msg.channel.send(
-        "Command not admitted. Type !help to see comands"
-    );
+    if ( args ) route( msg, args );
 
 });
 
+function route( message, { command , body } ) {
 
-
-function inVoiceChannel( msg ) {
-    const voiceChannel = msg.member.voice.channel;
-
-    if ( !voiceChannel )
-        return msg.channel.send(
-            "You need to be in a voice channel to play music!"
-        );
-    
-    return voiceChannel;
-}
-
-function hasPermissions( msg, voiceChannel ) {
-    const permissions = voiceChannel.permissionsFor( msg.client.user );
-
-    if ( !permissions.has( "CONNECT" ) || !permissions.has( "SPEAK" ) )
-        return msg.channel.send(
-            "I need the permissions to join and speak in your voice channel!"
-        );
-}
-
-async function getSong( id ) {
-    try {
-        const songInfo = await ytdl.getInfo( id );
-
-        return {
-            title: songInfo.videoDetails.title,
-            url: songInfo.videoDetails.video_url,
-        };
-
-    } catch( err ) {
-        return console.log( err );
+    switch ( command ) {
+        case "ping":
+            return ping( message );
+        case "play":
+            return executePlay( message, body );
+        case "skip":
+            return skip( message );
+        case "stop":
+            return stop( message );
+        case "list":
+            return list( message );
+        case "volume":
+            return volume( message, body );
+        case "meme":
+            return meme( message );
+        case "avatar":
+            return avatar( message, body );
+        case "kick":
+            return kick( message, body );
+        case "kiss":
+            return kiss( message, body );
+        case "sub":
+            return sub( message );
+        case "help":
+            return help( message );
+        default:
+            if( !message.content.includes( ".." ) 
+            || !message.content.includes( "._" ) ) {
+                return msgEmbed( message, "RED", "Command not recognized",
+                    `Try typing .help to see a description of all commands`
+                )
+            }
     }
-}
-
-async function tryConnection( msg, voiceChannel, queueConstruct ) {
-    try {
-        const connection = await voiceChannel.join();
-        queueConstruct.connection = connection;
-        return play( msg.guild, queueConstruct.songs[0] );
-
-      } catch ( err ) {
-        console.log( err );
-        queue.delete( msg.guild.id );
-
-        return msg.channel.send( err );
-      }
-}
-
-async function addToQueue( msg, serverQueue, voiceChannel, song ) {
-    if ( !serverQueue ) {
-        const queueConstruct = {
-          textChannel: msg.channel,
-          voiceChannel: voiceChannel,
-          connection: null,
-          songs: [],
-          volume: 5,
-          playing: true
-        };
     
-        queue.set( msg.guild.id, queueConstruct );
-        queueConstruct.songs.push( song );
-        await tryConnection( msg, voiceChannel, queueConstruct );
-        
-      } else {
-        serverQueue.songs.push( song );
-
-        return msg.channel.send( 
-            `${ song.title } has been added to the queue!` 
-        );
-      }
 }
 
-function comproveArgs( msg, args ) {
-    const option = args[1];
-
-    if ( !option )
-        return msg.channel.send(
-            "Put url or playlist-code after !play command"
-        );
-
-    if ( option.startsWith("https://") )
-            return option;
-    
-    const playlist = config.playlist[ option ];
-
-    if ( !playlist ) {
-        msg.channel.send(
-            "Choose one of these options available:"
-        );
-        show( msg, config.playlist );
-        msg.channel.send(
-            "Or type an url."
-        );
-        return;
-    }
-
-    return playlist;
-}
-
-async function execute( msg, serverQueue ) {
-    const args = msg.content.split(" ");
-    const option = comproveArgs( msg, args );
-
-    const voiceChannel = inVoiceChannel( msg );
-    hasPermissions( msg, voiceChannel );
-
-    const song = await getSong( option );
-    addToQueue( msg, serverQueue, voiceChannel, song )
-}
-
-function songInQueue( msg, serverQueue ) {
-    if ( !serverQueue )
-        return msg.channel.send(
-            "There is no song that I could skip!"
-        );
-    
-    return true;
-}
-
-function skip( msg, serverQueue ) {
-    inVoiceChannel( msg );
-    const inQueue = songInQueue( msg, serverQueue );
-
-    if ( inQueue ) serverQueue.connection.dispatcher.end();
-}
-
-function stop( msg, serverQueue ) {
-    serverQueue.connection.dispatcher.end()
-    serverQueue.voiceChannel.leave();
-    serverQueue.songs = [];
-
-    return msg.channel.send( "Stop it!" );
-}
-
-function getDispatcher( serverQueue , song) {
-    return serverQueue.connection
-        .play( ytdl( song.url ) )
-        .on("finish", () => {
-            serverQueue.songs.shift();
-            play( guild, serverQueue.songs[0] );
-        })
-        .on("error", error => console.error( error ));
-}
-
-function play( guild, song ) {
-    const serverQueue = queue.get( guild.id );
-
-    if ( !song ) {
-        serverQueue.voiceChannel.leave();
-        queue.delete( guild.id );
-        return;
-    }
-
-    const dispatcher = getDispatcher( serverQueue, song );
-
-    dispatcher.setVolumeLogarithmic( serverQueue.volume / config.volume );
-    
-    serverQueue.textChannel.send(
-      `Start playing: **${ song.title }**`
+function ping( message ) {
+    return msgEmbed( message, "BLUE", "PING!",
+        `\`${ client.ws.ping }ms\`` 
     );
 }
 
+function executePlay( message, body ) {
+    if ( !body ) return msgEmbed( message, "RED", "Wrong!", "No search key specified" );
 
+    if ( !message.member.voice.channel ) return msgEmbed( message, "RED", "Wrong!", "You must be in a voice channel");
+
+    return distube.play( message, body );
+}
+
+function skip( message ) {
+    const queue = comproveQueue( message );
+    if ( queue ) {
+        msgEmbed( message, "YELLOW", "Skipped!" );
+        return distube.skip( message );
+    }
+}
+
+function stop( message ) {
+    const queue = comproveQueue( message );
+    if ( queue ) {
+        msgEmbed( message, "RED", "Stopped!" );
+        return distube.stop( message );
+    }
+}
+
+function comproveQueue( message ) {
+    let queue = distube.getQueue( message );
+    if ( !queue ){
+        msgEmbed( message, "RED", "Wrong!", "There is no queue" );
+        return;
+    } 
+
+    if ( queue ) return queue;
+}
+
+function list( message ) {
+    const queue = comproveQueue( message );
+    if ( queue ) {
+        
+        return msgEmbed( message, "YELLOW", "Current queue:\n",
+            "" + queue.songs.map(( song, id ) =>
+                `**${ id + 1 }**. \`${ song.formattedDuration }\` - ${ song.name }`
+            ).slice( 0, 10 ).join( "\n" )
+        );
+    }
+}
+
+function volume( message, body ) {
+    const queue = comproveQueue( message );
+
+    if ( queue ) {
+        if ( body && Number( body ) >= 0 && Number( body ) <= 20 ) {
+            distube.setVolume( message, Number( body ) );
+            return msgEmbed( message, "YELLOW", "Volume changed!",
+                `Current volume: \`${ queue.volume }\``
+            );
+        
+        } else {
+            return msgEmbed( message, "RED", "Wrong!", "Specify a valid digit [0-20]" );
+        }
+    }
+}
+
+function meme( message ) {
+    got("https://www.reddit.com/r/memes/random/.json").then(( response ) => {
+        let content = JSON.parse( response.body ),
+            dataMeme = content[0].data.children[0].data,
+            memeImage = dataMeme.url,
+            memeTitle = dataMeme.title;
+
+        return msgEmbed( message, "BLUE", "MEME!", `${ memeTitle }`, memeImage )
+    })
+}
+
+function avatar( message, body ) {
+    if ( !body ) {
+        return msgEmbed( message, "BLUE", "Avatar!",
+            `${ message.author.username }, your avatar:`,
+            message.author.displayAvatarURL()
+        );
+    }
+            
+    const user = getUserFromMention( body );
+    return msgEmbed( message, "BLUE", "Avatar!",
+        `Avatar of ${ user.username }:`,
+        user.displayAvatarURL()
+    );
+}
+
+function kick( message, body ) {
+    if ( !body ) {
+        return msgEmbed( message, "RED", "Wrong!", 
+        "You must mention a user to kick-off him/her butt >:[" );
+    }
+
+    const user = getUserFromMention( body );
+    if ( user ) {
+        const urls = [
+            "https://media4.giphy.com/media/4N57n3Rei8iEE/giphy.gif?cid=ecf05e47jta4xy7awgt0e1f9wh4jh8i66705ahwdao99wxpw&rid=giphy.gif",
+            "https://media4.giphy.com/media/3o7bucCgne0vPiz3PO/giphy.gif",
+            "https://media1.giphy.com/media/xThuWduqIgOw1N2d3O/giphy.gif?cid=ecf05e476sg3zn7i514qpdhpscwzlymbeeqfxcfkxqhburni&rid=giphy.gif",
+            "https://media3.giphy.com/media/l3V0j3ytFyGHqiV7W/giphy.gif?cid=ecf05e47e9avn1l5s2aipz5yqhehcm3ccfm07cli9l63h95o&rid=giphy.gif"
+        ];
+
+        return msgEmbed( message, "RED", "KICK-BUTT!",
+            `${ message.author } has kicked off the enormous butt of \`${ user.username }\`!`,
+            urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
+        );
+    }
+}
+
+function kiss( message, body ) {
+    if ( !body ) {
+        return msgEmbed( message, "RED", "Wrong!", 
+        "You must mention a user to kiss him/her >:[" );
+    }
+
+    const user = getUserFromMention( body );
+
+    if ( user ) {
+        const urls = [
+            "https://media2.giphy.com/media/j98SQB5Y7WqnC/giphy.gif?cid=ecf05e471c3n7ljhkmc9xf8oyiys62cx6h6uchhrqkailuvk&rid=giphy.gif",
+            "https://media2.giphy.com/media/lEGpiFvQDX4U8/giphy.gif?cid=ecf05e47tr6psgsa6ob4vxm6o79ppmrf8godylet5obiewjb&rid=giphy.gif",
+            "https://media4.giphy.com/media/3ohze3kG5qO9DcTUbe/giphy.gif?cid=ecf05e47tr6psgsa6ob4vxm6o79ppmrf8godylet5obiewjb&rid=giphy.gif",
+            "https://media4.giphy.com/media/lTQF0ODLLjhza/giphy.gif?cid=ecf05e47q8yabqt4xlsje9p9d6oplrq8zudmng3xpze1jhfu&rid=giphy.gif",
+            "https://media0.giphy.com/media/5GdhgaBpA3oCA/giphy.gif?cid=ecf05e47l8tuegg0635pmyuu5jmlz5v185u92cs4hnzn0quf&rid=giphy.gif"
+        ];
+
+        return msgEmbed( message, "BLUE", "KISS!",
+            `${ message.author } gives a huge and passionate kiss to \`${ user.username }\`!`,
+            urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
+        );
+    }
+}
+
+function sub( message ) {
+    const urls = [
+        "https://media2.giphy.com/media/eYamBvyTZTUAM/giphy.gif?cid=ecf05e470n1z3iqz7k72p042l92c6jwtpfuk6tftnoo8wkk0&rid=giphy.gif",
+        "https://media3.giphy.com/media/3ohhwiN1AhoRGzpyNO/giphy.gif?cid=ecf05e479qtntdnieqh69b1519l5mfyw1jbod90p8oa853yh&rid=giphy.gif",
+        "https://media3.giphy.com/media/7Jq6ufAgpblcm0Ih2z/giphy.gif?cid=ecf05e472870baayc629bejzikpecs6kf1057h5di6zluoxr&rid=giphy.gif"
+    ];
+
+    return msgEmbed( message, "GREEN", "ALERT!",
+        `${ message.author } is alerting of subnormality on this channel!`,
+        urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
+    );
+}
+
+function help( message ) {
+    let text = "";
+    
+    config.commands.forEach(( command, id ) => {
+        text += `**${ id + 1 }. ${ command.name }** - ${ command.desc } ${
+            Array.isArray( command.value ) ? `\n\` ${ command.value[0] }\` or \`${ command.value[1] } \`` : `\n\` ${ command.value } \``
+        }\n\n`;
+    });
+
+    return msgEmbed( message, "BLUE", "Commands", text );
+}
+
+function getUserFromMention( mention ) {
+	if ( !mention ) return;
+
+	if ( mention.startsWith( "<@" ) && mention.endsWith( ">" )) {
+		mention = mention.slice(2, -1);
+
+		if (mention.startsWith( '!' )) mention = mention.slice(1);
+
+		return client.users.cache.get( mention );
+	}
+}
+
+function msgEmbed( message, color, titl, desc, image ) {
+    const embed = new Discord.MessageEmbed()
+        .setColor( color )
+        .setFooter(
+            message.author.username,
+            message.author.displayAvatarURL()
+        );
+        
+
+    if ( titl ) embed.setTitle( titl );
+    if ( desc ) embed.setDescription( desc );
+    if ( image ) embed.setImage( image );
+
+    return message.channel.send( embed );
+}
+
+function getArgs( message ) {
+    if ( !message.content.startsWith( config.prefix ) )
+        return;
+    
+    const args = message.content.slice( 
+            config.prefix.length 
+        ).trim().split( / +/g );
+
+    return {
+        command: args.shift(),
+        body: args.join( " " )
+    }
+}
+
+
+const status = ( queue ) => `Volume: \`${ queue.volume }%\` | Filter: \`${ queue.filter || "Off" }\` | Autoplay: \`${ queue.autoplay ? "On" : "Off" }\``;
+
+distube
+    .on("playSong", ( message, queue, song ) => {
+        queue.dispatcher.setVolumeLogarithmic( 0.2 );
+        msgEmbed( message, "BLUE",
+            `Playing ${ song.name } - \`${ song.formattedDuration }\``,
+            `${ status( queue ) }\n`,
+            song.thumbnail
+        );
+    })
+    .on("addSong", ( message, queue, song ) => 
+        msgEmbed( message, "BLUE", "Added to the queue",
+            `\`${ song.formattedDuration }\` - ${ song.name }`,
+            song.thumbnail
+        )
+    )
+    .on("playList", ( message, queue, playlist, song ) => 
+        msgEmbed( message, "BLUE",
+            `Play \`${ playlist.name }\` playlist (${ playlist.songs.length } songs).\n`
+            `Now playing \`${ song.formattedDuration }\` - ${ song.name }\n${ status( queue ) }`,
+            song.thumbnail
+        )
+    )
+    .on("addList", ( message, queue, playlist ) => 
+        msgEmbed( message, "BLUE"
+            `Added \`${ playlist.name }\` playlist (${ playlist.songs.length } songs) to queue`
+    ))
+
+    .on("searchResult", ( message, result ) => {
+        let i = 0;
+        msgEmbed( message, "YELLOW", "**Choose an option from below**",
+            `${ result.map(song => `**${ ++i }**. \`${ song.formattedDuration }\` - ${ song.name }`).join("\n") }
+            *Enter anything else or wait 60 seconds to cancel*`
+        );
+    })
+    
+    .on("searchCancel", ( message ) => msgEmbed( message, "RED", `Searching canceled` ))
+    .on("error", ( message, e ) => {
+        msgEmbed( message, "RED",  "An error encountered: ", e );
+    });
 
 client.login( config.token );

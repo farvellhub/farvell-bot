@@ -1,21 +1,29 @@
 {
   "name": "farvell_bot",
-  "description": "discord bot",
   "version": "1.0.0",
+  "description": "",
   "main": "main.js",
   "scripts": {
-    "serve": "npx nodemon index.js"
+    "serve": "nodemon ./main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianterrasa/farvell-bot.git"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adrianterrasa/farvell-bot/issues"
+  },
+  "homepage": "https://github.com/adrianterrasa/farvell-bot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "discord.js": "^12.5.1",
+    "distube": "^2.8.11",
     "ffmpeg": "^0.0.4",
-    "fluent-ffmpeg": "^2.1.2",
-    "ytdl-core": "^4.5.0",
-    "ytdl-core-discord": "^1.2.5"
+    "got": "^11.8.2",
+    "python": "^0.0.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

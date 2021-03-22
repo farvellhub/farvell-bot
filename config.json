@@ -1,22 +1,61 @@
 {   
-    "prefix": "!",
-    "commands": {
-        "play": "!play",
-        "skip": "!skip",
-        "stop": "!stop",
-        "loop": "!loop",
-        "list": "!list",
-        "help": "!help"
-    },
-    "volume": 50,
-    "playlist": {
-        "edm": "https://www.youtube.com/watch?v=rklImmR-lko",
-        "lofi": "https://www.youtube.com/watch?v=tgI6PjEq0O8",
-        "electro": "https://youtu.be/1D_hy3itHsg",
-        "travis": "https://www.youtube.com/watch?v=-4b_0Iq2q5M",
-        "gaming": "https://youtu.be/K8w7-4ZEHV4",
-        "hard": "https://www.youtube.com/watch?v=srRf9anlerw"
-    },
-
+    "prefix": ".",
+    "commands": [
+        {
+            "name": "ping",
+            "desc": "Show ping.",
+            "value": "ping"
+        },
+        {
+            "name": "play",
+            "desc": "Play or add a song.",
+            "value": "play searh-keys"
+        },
+        {
+            "name": "stop",
+            "desc": "Stop queue.",
+            "value": "stop"
+        },
+        {
+            "name": "skip",
+            "desc": "Next song on the queue.",
+            "value": "skip"
+        },
+        {
+            "name": "list",
+            "desc": "Lists all the songs on the queue.",
+            "value": "list"
+        },
+        {
+            "name": "volume",
+            "desc": "Change the volume of the queue.",
+            "value": "volume [0-20]"
+        },
+        {
+            "name": "meme",
+            "desc": "Show a random meme from Reddit.",
+            "value": "meme"
+        },
+        {
+            "name": "avatar",
+            "desc": "Show avatar from user.",
+            "value": [ "avatar", ".avatar @user" ]
+        },
+        {
+            "name": "kick",
+            "desc": "Kick-off the butt of a user.",
+            "value": "kick @user"
+        },
+        {
+            "name": "kiss",
+            "desc": "Send a kiss to a user.",
+            "value": "kiss @user"
+        },
+        {
+            "name": "sub",
+            "desc": "Alert of subnormality xd.",
+            "value": "sub"
+        }
+    ],
     "token": "token"
 }
