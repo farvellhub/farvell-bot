@@ -56,6 +56,8 @@ function route( message, { command , body } ) {
             return gif( message, body );
         case "avatar":
             return avatar( message, body );
+        case "alive":
+            return alive( message, body );
         case "kick":
             return kick( message, body );
         case "kiss":
@@ -67,7 +69,7 @@ function route( message, { command , body } ) {
         default:
             if( !message.content.startsWith( ".." ) 
             || !message.content.startsWith( "._" ) ) {
-                return msgEmbed( message, "RED", "Command not recognized",
+                return msgEmbed( message, "RED", "Command not recognized!",
                     `Try typing .help to see a description of all commands`
                 )
             }
@@ -76,7 +78,7 @@ function route( message, { command , body } ) {
 }
 
 function ping( message ) {
-    return msgEmbed( message, "BLUE", "PING!",
+    return msgEmbed( message, "BLUE", "Ping!",
         `\`${ client.ws.ping }ms\`` 
     );
 }
@@ -173,7 +175,7 @@ function gif( message, body ) {
                 Math.floor(Math.random() * Math.floor( content.results.length ))
             ].media[0].gif.url;
 
-        return msgEmbed( message, "BLUE", "GIF!", "", gifImage )
+        return msgEmbed( message, "BLUE", "Gif!", "", gifImage )
     })
 }
 
@@ -192,6 +194,23 @@ function avatar( message, body ) {
     );
 }
 
+async function alive( message, body ) {
+    if ( !body ) {
+        return msgEmbed( message, "RED", "Wrong!", 
+        "You must mention a user to see if him/her is alive >:[" );
+    }
+
+    const user = getUserFromMention( body );
+
+    if ( user ) {
+        const member = await message.guild.members.fetch("id");
+        return console.log( member.presence );
+        /* return msgEmbed( message, "BLUE", "Alive!",
+            `${ user.username } is ${ member.joinedAt }!`
+        ); */
+    }
+}
+
 function kick( message, body ) {
     if ( !body ) {
         return msgEmbed( message, "RED", "Wrong!", 
@@ -207,7 +226,7 @@ function kick( message, body ) {
             "https://media3.giphy.com/media/l3V0j3ytFyGHqiV7W/giphy.gif?cid=ecf05e47e9avn1l5s2aipz5yqhehcm3ccfm07cli9l63h95o&rid=giphy.gif"
         ];
 
-        return msgEmbed( message, "RED", "KICK-BUTT!",
+        return msgEmbed( message, "RED", "KickButt!",
             `${ message.author } has kicked off the enormous butt of \`${ user.username }\`!`,
             urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
         );
@@ -231,7 +250,7 @@ function kiss( message, body ) {
             "https://media0.giphy.com/media/5GdhgaBpA3oCA/giphy.gif?cid=ecf05e47l8tuegg0635pmyuu5jmlz5v185u92cs4hnzn0quf&rid=giphy.gif"
         ];
 
-        return msgEmbed( message, "BLUE", "KISS!",
+        return msgEmbed( message, "BLUE", "Kiss!",
             `${ message.author } gives a huge and passionate kiss to \`${ user.username }\`!`,
             urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
         );
@@ -245,7 +264,7 @@ function sub( message ) {
         "https://media3.giphy.com/media/7Jq6ufAgpblcm0Ih2z/giphy.gif?cid=ecf05e472870baayc629bejzikpecs6kf1057h5di6zluoxr&rid=giphy.gif"
     ];
 
-    return msgEmbed( message, "GREEN", "ALERT!",
+    return msgEmbed( message, "GREEN", "Alert!",
         `${ message.author } is alerting of subnormality on this channel!`,
         urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
     );
