@@ -99,7 +99,7 @@ async function executePlay( message, body ) {
     if ( !message.member.voice.channel ) return msgEmbed( message, "RED", "Wrong!", "You must be in a voice channel");
 
     await distube.play( message, body );
-    return distube.setVolume()
+    return distube.setVolume( message, body )
 
     
 }
