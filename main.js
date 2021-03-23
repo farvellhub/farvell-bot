@@ -223,7 +223,7 @@ function kiss( message, body ) {
     }
 
     const user = getUserFromMention( body );
-
+ 
     if ( user ) {
         const urls = [
             "https://media2.giphy.com/media/j98SQB5Y7WqnC/giphy.gif?cid=ecf05e471c3n7ljhkmc9xf8oyiys62cx6h6uchhrqkailuvk&rid=giphy.gif",
@@ -313,7 +313,7 @@ const status = ( queue ) => `Volume: \`${ queue.volume * 10 }%\` | Filter: \`${ 
 distube
     .on("playSong", ( message, queue, song ) => {
         queue.dispatcher.setVolumeLogarithmic( 0.2 );
-        
+
         msgEmbed( message, "BLUE",
             `Playing ${ song.name } - \`${ song.formattedDuration }\``,
             `${ status( queue ) }\n`,
