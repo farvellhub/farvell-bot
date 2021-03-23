@@ -16,7 +16,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   step 5: Run `node .`
 
 # Music Commands
-  `.play:` play or add a song to the queue.
+  `.play searchkeys:` play or add a song to the queue.
   
   `.stop:` stop reproducing.
   
@@ -24,22 +24,22 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   `.list:` lists all songs.
   
-  `.volume:` set new volume.
+  `.volume [0-20]:` set new volume.
   
 # Fun commands
   `.meme:` Show random meme from reddit.
   
-  `.gif:` Search gif on Tenor.
+  `.gif searchkeys:` Search gif on Tenor.
   
-  `.kick:` Kick a user.
+  `.kick @user:` Kick a user.
   
-  `.kiss:` Send a kiss.
+  `.kiss @user:` Send a kiss.
   
   `.sub:` Private alert.
   
 # Util commands  
   `.ping:` Show the ping.
 
-  `.avatar:` Show avatar of a user.
+  `.avatar @user:` Show avatar of a user.
 
-  `.clear:` Clear max the last 100 messages.
+  `.clear [0-100]:` Clear max the last 100 messages.
