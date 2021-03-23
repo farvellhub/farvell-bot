@@ -99,8 +99,9 @@ async function executePlay( message, body ) {
     if ( !message.member.voice.channel ) return msgEmbed( message, "RED", "Wrong!", "You must be in a voice channel");
 
     await distube.play( message, body );
+    return distube.setVolume()
 
-    return distube.setVolume( message, 5 )
+    
 }
 
 function skip( message ) {
@@ -192,23 +193,6 @@ function avatar( message, body ) {
         `Avatar of ${ user.username }:`,
         user.displayAvatarURL()
     );
-}
-
-async function alive( message, body ) {
-    if ( !body ) {
-        return msgEmbed( message, "RED", "Wrong!", 
-        "You must mention a user to see if him/her is alive >:[" );
-    }
-
-    const user = getUserFromMention( body );
-
-    if ( user ) {
-        const member = await message.guild.members.fetch("id");
-        return console.log( member.presence );
-        /* return msgEmbed( message, "BLUE", "Alive!",
-            `${ user.username } is ${ member.joinedAt }!`
-        ); */
-    }
 }
 
 function kick( message, body ) {
@@ -325,7 +309,7 @@ function getArgs( message ) {
 }
 
 
-const status = ( queue ) => `Volume: \`${ queue.volume }0%\` | Filter: \`${ queue.filter || "Off" }\` | Autoplay: \`${ queue.autoplay ? "On" : "Off" }\``;
+const status = ( queue ) => `Volume: \`${ queue.volume * 10 }%\` | Filter: \`${ queue.filter || "Off" }\` | Autoplay: \`${ queue.autoplay ? "On" : "Off" }\``;
 
 distube
     .on("playSong", ( message, queue, song ) => {
