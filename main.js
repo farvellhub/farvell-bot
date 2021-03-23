@@ -98,8 +98,7 @@ async function executePlay( message, body ) {
 
     if ( !message.member.voice.channel ) return msgEmbed( message, "RED", "Wrong!", "You must be in a voice channel");
 
-    await distube.play( message, body );
-    return distube.setVolume( message, body )
+    return await distube.play( message, body );
 
     
 }
@@ -313,6 +312,8 @@ const status = ( queue ) => `Volume: \`${ queue.volume * 10 }%\` | Filter: \`${ 
 
 distube
     .on("playSong", ( message, queue, song ) => {
+        queue.dispatcher.setVolumeLogarithmic( 0.2 );
+        
         msgEmbed( message, "BLUE",
             `Playing ${ song.name } - \`${ song.formattedDuration }\``,
             `${ status( queue ) }\n`,
