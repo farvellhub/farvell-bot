@@ -47,11 +47,6 @@
             "value": [ ".gif", ".gif search-key" ]
         },
         {
-            "name": "alive",
-            "desc": "Show if a user is live",
-            "value": ".alive @user"
-        },
-        {
             "name": "avatar",
             "desc": "Show avatar from user.",
             "value": [ ".avatar", ".avatar @user" ]
