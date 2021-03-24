@@ -74,4 +74,4 @@ function tryCommand( client, message, { command, body } ) {
 
 client.distube.listen();
 
-client.login( process.env.TESTTOKEN );
+client.login( process.env.TOKEN );
