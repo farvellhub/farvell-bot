@@ -40,6 +40,6 @@ Fun bot with music comand. Music commands made it with DisTube API.
 # Util commands  
   `.ping:` Show the ping.
 
-  `.avatar @user:` Show avatar of a user.
+  `.alive @user:` Show user status.
 
   `.clear [0-100]:` Clear max the last 100 messages.
