@@ -25,6 +25,7 @@
     "dotenv": "^8.2.0",
     "ffmpeg": "^0.0.4",
     "got": "^11.8.2",
+    "mongodb": "^3.6.5",
     "python": "^0.0.4"
   },
   "devDependencies": {
