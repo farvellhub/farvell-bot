@@ -46,7 +46,7 @@ module.exports = class extends DisTube {
 
             embed( message, "YELLOW", "**Elige una opción:**",
                 `${ result.map(song => `**${ ++i }**. \`${ song.formattedDuration }\` - ${ song.name }`).join("\n") }
-                *Escribe cualquier cosa o espera 60 segundos.*`
+                *Escribir cualquier cosa o esperar 60 segundos cancela la búsqueda.*`
             );
         })
         

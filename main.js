@@ -6,7 +6,12 @@ const DisTubeHandler = require( "./utils/distube" );
 
 require( "dotenv" ).config();
 
-const client = new Discord.Client();
+const intents = new Discord.Intents([
+    Discord.Intents.NON_PRIVILEGED, 
+    "GUILD_MEMBERS"
+]);
+
+const client = new Discord.Client({ ws: { intents } });
 client.commands = new Discord.Collection();
 client.distube = new DisTubeHandler( client );
 
@@ -54,7 +59,7 @@ function getArgs( message, config ) {
     ).trim().split( / +/g );
 
     return {
-        command: args.shift(),
+        command: args.shift().toLowerCase(),
         body: args.join( " " )
     }
 }

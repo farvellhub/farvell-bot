@@ -1,12 +1,12 @@
 const embed = require( "../utils/embed" ),
-    botmaster = require( "../utils/botmaster" );
+    messages = require("../utils/messages");
 
 module.exports = {
 	name: 'clear',
 	desc: 'Borra max. 100 mensajes en el canal. (BotMaster)',
 
 	execute( client, message, args ) {
-        if ( botmaster( message ) ) {
+        if ( messages( message ) ) {
             if ( args === "" || isNaN( args ) || args > 100 ) args = 100;
 
             if ( Number( args ) >= 0 && Number( args ) <= 100 ) {

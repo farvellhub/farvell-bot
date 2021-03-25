@@ -1,4 +1,4 @@
-# Farvell-Bot for Discord
+# FarvellBot for Discord
 Fun bot with music comand. Music commands made it with DisTube API.
 
 # Where to start
