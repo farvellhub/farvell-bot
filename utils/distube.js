@@ -24,13 +24,13 @@ module.exports = class extends DisTube {
             );
         })
         .on("addSong", ( message, queue, song ) => 
-            embed( message, "RANDOM", "Canción añadida a la lista!",
+            embed( message, "BLUE", "Canción añadida a la lista!",
                 `\`${ song.formattedDuration }\` - ${ song.name }`,
                 song.thumbnail
             )
         )
         .on("playList", ( message, queue, playlist, song ) => 
-            embed( message, "BLUE",
+            embed( message, "RANDOM",
                 `Lista \`${ playlist.name }\` (${ playlist.songs.length } canciones).\n`
                 `Reproduciendo \`${ song.formattedDuration }\` - ${ song.name }\n${ this.status( queue ) }`,
                 song.thumbnail
