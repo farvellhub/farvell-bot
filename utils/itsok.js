@@ -3,7 +3,7 @@ const embed = require( "../utils/embed" );
 module.exports = async function( message, server, dok, iok ) {
     let ok = false;
 
-    embed( message, "RANDOM", `${ server.name }`,
+    embed( message, "RANDOM", `${ server.name } te informa:`,
          dok, iok
     );
     
