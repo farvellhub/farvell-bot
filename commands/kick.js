@@ -7,8 +7,10 @@ module.exports = {
 
 	execute( client, message, args ) {
 		if ( !args ) {
-            return embed( message, "RED", "Error 506!", 
-            "Sin @mencion no hay pateo >:[" );
+            return embed( message, "RANDOM", "Pateo de culo grupal!",
+                `${ message.author } os pateo el culo a tod@s en \`${ message.channel.name }\`! `,
+                urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
+            );
         }
     
         const user = mention( client, args );
@@ -27,7 +29,7 @@ module.exports = {
                 "https://media3.giphy.com/media/l3V0j3ytFyGHqiV7W/giphy.gif?cid=ecf05e47e9avn1l5s2aipz5yqhehcm3ccfm07cli9l63h95o&rid=giphy.gif"
             ];
     
-            return embed( message, "RED", "Pateo de culo!",
+            return embed( message, "RANDOM", "Pateo de culo!",
                 `${ message.author } le pateo el culo a \`${ user.username }\`! R.I.P`,
                 urls[ Math.floor(Math.random() * Math.floor( urls.length )) ]
             );

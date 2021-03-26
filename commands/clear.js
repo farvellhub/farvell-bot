@@ -3,7 +3,7 @@ const embed = require( "../utils/embed" ),
 
 module.exports = {
 	name: 'clear',
-	desc: 'Borra max. 100 mensajes en el canal. (BotMaster)',
+	desc: 'Borra max. 100 mensajes en el canal.',
 
 	execute( client, message, args ) {
         if ( messages( message ) ) {

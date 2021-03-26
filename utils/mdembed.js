@@ -1,7 +1,7 @@
 const Discord = require( "discord.js" ),
     embed = require( "../utils/embed" );
 
-module.exports = function( message, user, server, desc, image ) {
+module.exports = function( message, dest, server, desc, image ) {
 
     const embed = new Discord.MessageEmbed()
         .setColor( "RANDOM" )
@@ -13,5 +13,5 @@ module.exports = function( message, user, server, desc, image ) {
             message.author.displayAvatarURL()
         );
         
-    return user.send( embed );
+    return dest.send( embed );
 }

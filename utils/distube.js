@@ -17,14 +17,14 @@ module.exports = class extends DisTube {
 
     listen() {
         return this.on("playSong", ( message, queue, song ) => {
-            embed( message, "BLUE",
+            embed( message, "RANDOM",
                 `Reproduciendo ${ song.name } - \`${ song.formattedDuration }\``,
                 `${ this.status( queue ) }\n`,
                 song.thumbnail
             );
         })
         .on("addSong", ( message, queue, song ) => 
-            embed( message, "BLUE", "Canción añadida a la lista!",
+            embed( message, "RANDOM", "Canción añadida a la lista!",
                 `\`${ song.formattedDuration }\` - ${ song.name }`,
                 song.thumbnail
             )
@@ -32,7 +32,7 @@ module.exports = class extends DisTube {
         .on("playList", ( message, queue, playlist, song ) => 
             embed( message, "BLUE",
                 `Lista \`${ playlist.name }\` (${ playlist.songs.length } canciones).\n`
-                `Reproduciendo \`${ song.formattedDuration }\` - ${ song.name }\n${ status( queue ) }`,
+                `Reproduciendo \`${ song.formattedDuration }\` - ${ song.name }\n${ this.status( queue ) }`,
                 song.thumbnail
             )
         )
@@ -40,19 +40,17 @@ module.exports = class extends DisTube {
             embed( message, "BLUE"
                 `Añadida \`${ playlist.name }\` playlist (${ playlist.songs.length } cancione) a la lista`
         ))
-
         .on("searchResult", ( message, result ) => {
             let i = 0;
 
-            embed( message, "YELLOW", "**Elige una opción:**",
-                `${ result.map(song => `**${ ++i }**. \`${ song.formattedDuration }\` - ${ song.name }`).join("\n") }
+            embed( message, "BLUE", "**Elige una opción:**",
+                `${ result.map(( song ) => `**${ ++i }**. \`${ song.formattedDuration }\` - ${ song.name }`).join("\n") }
                 *Escribir cualquier cosa o esperar 60 segundos cancela la búsqueda.*`
             );
         })
-        
         .on("searchCancel", ( message ) => embed( message, "RED", `Búsqueda cancelada!` ))
         .on("error", ( message, e ) => {
-            embed( message, "RED",  "Ups! Ocurrió algo inesperado! ", e );
+            embed( message, "RED",  "Ups! Ocurrió algo inesperado!", e );
         });
     }
 
