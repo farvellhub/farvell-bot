@@ -36,10 +36,18 @@ Fun bot with music comand. Music commands made it with DisTube API.
   `.kiss @user:` Send a kiss.
   
   `.sub:` Private alert.
+
+# Moderation commands 
+  `.clear [0-100]:` Clear max the last 100 messages.
+  
+  `.advice channel:` Send a message to channel.
+  
+  `.notice:` Send a MD to all members.
+
   
 # Util commands  
   `.ping:` Show the ping.
 
   `.alive @user:` Show user status.
 
-  `.clear [0-100]:` Clear max the last 100 messages.
+  
