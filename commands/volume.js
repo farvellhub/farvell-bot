@@ -4,6 +4,7 @@ const embed = require( "../utils/embed" ),
 module.exports = {
 	name: 'volume',
 	desc: 'Cambia el volúmen de la lista de reproducción.',
+    category: "music",
 
 	execute( client, message, args ) {
 		const queue = comprover( client, message );

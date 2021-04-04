@@ -2,8 +2,9 @@ const embed = require( "../utils/embed" ),
     messages = require("../utils/messages");
 
 module.exports = {
-	name: 'clear',
-	desc: 'Borra max. 100 mensajes en el canal.',
+	name: "clear",
+	desc: "Borra max. 100 mensajes en el canal. [0-100]]",
+    category: "moderation",
 
 	execute( client, message, args ) {
         if ( messages( message ) ) {

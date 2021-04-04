@@ -1,8 +1,10 @@
-const embed = require( "../utils/embed" );
+const embed = require( "../utils/embed" ),
+    mention = require( "../utils/mention" );
 
 module.exports = {
 	name: 'sub',
 	desc: 'Aviso de subnormalidad en el canal.',
+    category: "fun",
 
 	execute( client, message, args ) {
 		const urls = [

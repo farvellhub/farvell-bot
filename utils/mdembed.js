@@ -7,11 +7,13 @@ module.exports = function( message, dest, server, desc, image ) {
         .setColor( "RANDOM" )
         .setTitle( `${ server.name } te informa:` )
         .setDescription( desc )
-        .setImage( image )
         .setFooter(
             message.author.username,
             message.author.displayAvatarURL()
         );
+
+    if ( image.startsWith( "http" ) )
+        embed.setImage( image );
         
     return dest.send( embed );
 }

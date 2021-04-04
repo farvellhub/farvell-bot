@@ -2,8 +2,9 @@ const embed = require( "../utils/embed" ),
     got = require( "got" );
 
 module.exports = {
-    name: 'meme',
-	desc: 'Muestra un meme random de Reddit.',
+    name: "meme",
+	desc: "Muestra un meme random de Reddit.",
+    category: "fun",
 
 	execute( client, message, args ) {
         const url = "https://www.reddit.com/r/memes/random/.json";

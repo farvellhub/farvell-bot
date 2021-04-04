@@ -1,8 +1,9 @@
 const embed = require( "../utils/embed" );
 
 module.exports = {
-	name: 'play',
-	desc: 'Reproduce o añade una cancion.',
+	name: "play",
+	desc: "Reproduce o añade una cancion. [búsqueda/URL]",
+    category: "music",
 
     async getSong( client, message, args ) {
         await client.distube.play( message, args );

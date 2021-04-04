@@ -2,8 +2,9 @@ const embed = require( "../utils/embed" ),
     comprover = require( "../utils/comprover" );
 
 module.exports = {
-	name: 'list',
-	desc: 'Muestra la lista de reproducción.',
+	name: "list",
+	desc: "Muestra la lista de reproducción.",
+    category: "music",
 
 	execute( client, message, args ) {
 		const queue = comprover( client, message );

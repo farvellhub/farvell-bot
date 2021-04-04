@@ -1,7 +1,11 @@
-const embed = require( "../utils/embed" );
+const embed = require( "../utils/embed" ),
+    waitFor = require( "../utils/waitfor" );
 
-module.exports = async function( message, server, dok, iok ) {
-    let ok = false;
+module.exports = async function( message, server ) {
+    const dok = await waitFor( message, "Introduce el cuerpo del mensaje:" ),
+        iok = await waitFor( message, "Introduce la url de la imagen:" );
+
+    let ok;
 
     embed( message, "RANDOM", `${ server.name } te informa:`,
          dok, iok
@@ -16,8 +20,10 @@ module.exports = async function( message, server, dok, iok ) {
         }).then( m => {
             return m.first().content.startsWith("yes")
             || m.first().content.startsWith("Y");
-        }).catch( e => embed( message, "RED", "Ups! Ocurrió algo inesperado!", e ) );
+        }).catch( e => embed( message, "RED", "Tiempo agotado!", e ) );
     });
 
-    return ok;
+    if ( !ok ) return embed( message, "RED", "Has cancelado el envío" );
+
+    return { dok, iok };
 }

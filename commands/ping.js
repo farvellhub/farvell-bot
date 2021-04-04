@@ -1,8 +1,9 @@
 const embed = require( "../utils/embed" );
 
 module.exports = {
-	name: 'ping',
-	desc: 'Muestra tu ping',
+	name: "ping",
+	desc: "Muestra tu ping",
+	category: "utils",
 
 	execute( client, message, args ) {
 		return embed( message, "BLUE", "Ping!",

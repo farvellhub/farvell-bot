@@ -11,7 +11,8 @@ module.exports = function( message, color, titl, desc, image ) {
 
     if ( titl ) embed.setTitle( titl );
     if ( desc ) embed.setDescription( desc );
-    if ( image ) embed.setImage( image );
+    if ( image && image.startsWith( "http" ) )
+        embed.setImage( image );
 
     return message.channel.send( embed );
 }

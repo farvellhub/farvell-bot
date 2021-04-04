@@ -4,19 +4,26 @@ const embed = require( "../utils/embed" ),
 module.exports = {
     name: "help",
     desc: "Muestra todos los comandos.",
+    categories: [ "music", "fun", "moderation", "utils"],
 
     execute( client, message, args ) {
         const file = fs.readFileSync( __dirname +  "/../config.json" ),
             config = JSON.parse( file );
 
-        let text = `Prefijo asignado:  **\`${ config.prefix }\`**\n\n`;
+        let text = `Prefijo asignado:  **\`${ config.prefix }\`**\n`;
 
-        client.commands.forEach(( command ) => {
-            const prefix = `${ config.prefix }${ command.name }`;
+        this.categories.forEach(( c ) => {
+            text += `\n**${ c.toUpperCase() }**\n\n`;
 
-            text += `**\`${ prefix }\`**: ${ command.desc }\n\n`;
+            client.commands.filter(( command ) => {
+                return command.category === c
+            }).forEach(( command ) => {
+                const prefix = `${ config.prefix }${ command.name }`;
+    
+                text += `**\`${ prefix }\`**: ${ command.desc }\n`;
+            });
         });
     
-        return embed( message, "BLUE", "Commandos:", text )
+        return embed( message, "BLUE", "Comandos:", text );
     }
 }

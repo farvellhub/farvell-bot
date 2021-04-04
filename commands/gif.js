@@ -2,8 +2,9 @@ const embed = require( "../utils/embed" ),
     got = require( "got" );
 
 module.exports = {
-    name: 'gif',
-	desc: 'Busca un gif en Tenor.',
+    name: "gif",
+	desc: "Busca un gif en Tenor. [búsqueda]",
+    category: "fun",
 
 	execute( client, message, args ) {
         const url = `https://g.tenor.com/v1/search?q=${ args }&key=${ process.env.TENORKEY }&limit=8`;

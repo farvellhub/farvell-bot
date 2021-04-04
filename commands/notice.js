@@ -1,46 +1,37 @@
 const embed = require( "../utils/embed" ),
     mdEmbed = require( "../utils/mdembed" ),
-    waitFor = require( "../utils/waitfor" ),
-    itsok = require( "../utils/itsok" ),
-    botmaster = require("../utils/botmaster");
+    botmaster = require("../utils/botmaster"),
+    itsok = require( "../utils/itsok" );
 
 module.exports = {
-	name: 'notice',
-	desc: 'Envía un MD a todos los miembros.',
-
+	name: "notice",
+	desc: "Envía un MD a todos los miembros.",
+    category: "moderation",
     
-    send( message, member, server, desc, image ) {
-        if( !member.user.bot ) {
-            mdEmbed( message, member.user, server, desc, image );
-        }
+    send( message, members, server, desc, image ) {
+        members.forEach(( member ) => {
+            if( !member.user.bot ) {
+                mdEmbed( message, member.user, server, desc, image );
+            }
+        });
+
+        return embed( message, "BLUE", "Mensaje enviado con éxito!" );
+    },
+
+    async fetchMembers( message ) {
+        const server = client.guilds.cache.get( message.guild.id );
+        const members = await server.members.fetch();
+
+        return { server, members };
     },
 
 	async execute( client, message, args ) {
-        let { dok, iok } = "";
-        console.log(args);
 
 		if ( botmaster( message ) ) {
-            dok = await waitFor( message, "Inserta el cuerpo del mensaje.");
-            iok = await waitFor( message, "Inserta la url de la imagen." );
+            const { server, members } = await this.fetchMembers( message ),
+                { desc, image } = await itsok( message, server );
 
-            if ( !iok.startsWith( "http" ) ) {
-                return embed( message, "RED", "Erro 506!",
-                    "No has especificado una URL valida. Envio cancelado"
-                );
-            }
-
-            const server = client.guilds.cache.get( message.guild.id );
-            const members = await server.members.fetch();
-
-            let ok = await itsok( message, server, dok, iok );
-
-            if ( !ok ) return embed( message, "RED", "Has cancelado el envío" );
-
-            members.forEach(( member ) => {
-                this.send( message, member, server, dok, iok );
-            });
-
-            return embed( message, "BLUE", "Mensaje enviado con éxito!" );
+            if ( ok ) this.send( message, members, server, desc, image );   
         }
 	}
 };

@@ -2,8 +2,9 @@ const embed = require( "../utils/embed" ),
     mention = require( "../utils/mention" );
 
 module.exports = {
-	name: 'alive',
-	desc: 'Muestra el estado de un usuario.',
+	name: "alive",
+	desc: "Muestra el estado de un usuario. [@mencion]",
+    category: "utils",
 
 	execute( client, message, args ) {
 		if ( !args ) {
