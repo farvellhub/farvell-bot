@@ -55,7 +55,6 @@ Fun commands
 
 
 # Questions?
-----------
 
 If you have any questions, please feel free to contact me on discord Farvell⚡#3387.
   
