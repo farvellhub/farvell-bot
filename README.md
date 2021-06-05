@@ -1,7 +1,7 @@
 # FarvellBot for Discord
 Fun bot with music comand. Music commands made it with DisTube API.
 
-# Where to start
+### Where to start
   step 1: Download the source code zip
   
   step 2: Extract it
@@ -15,7 +15,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   step 5: Run `node .`
 
-# Music Commands
+### Music Commands
   `.play searchkeys:` play or add a song to the queue.
   
   `.stop:` stop reproducing.
@@ -26,7 +26,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   `.volume [0-20]:` set new volume.
   
-# Fun commands
+Fun commands
   `.meme:` Show random meme from reddit.
   
   `.gif searchkeys:` Search gif on Tenor.
@@ -37,7 +37,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   `.sub:` Private alert.
 
-# Moderation commands 
+### Moderation commands 
   `.clear [0-100]:` Clear max the last 100 messages.
   
   `.advice channel:` Send a message to channel.
@@ -45,7 +45,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   `.notice:` Send a MD to all members.
 
   
-# Util commands  
+### Util commands  
   `.ping:` Show the ping.
 
   `.alive @user:` Show user status.
