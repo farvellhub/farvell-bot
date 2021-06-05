@@ -50,4 +50,10 @@ Fun bot with music comand. Music commands made it with DisTube API.
 
   `.alive @user:` Show user status.
 
+
+
+Questions?
+----------
+
+If you have any questions, please feel free to contact me on discord Farvell⚡#3387.
   
