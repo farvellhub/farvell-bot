@@ -15,6 +15,8 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   step 5: Run `node .`
 
+# Commands
+
 ### Music Commands
   `.play searchkeys:` play or add a song to the queue.
   
