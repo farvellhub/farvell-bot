@@ -1,14 +1,4 @@
-# FarvellBot for Discord
-Fun bot with music comand. Music commands made it with DisTube API.
-
-
-
-
-# Questions?
-
-If you have any questions, please feel free to contact me on discord Farvell⚡#3387.
-
-<h1 align="center">Welcome to JFlow Start Point👋</h1>
+<h1 align="center">Welcome to FarvellBot for Discordt👋</h1>
 <p align="center">
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.3-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
@@ -16,7 +6,7 @@ If you have any questions, please feel free to contact me on discord Farvell⚡#
   </a>
 </p>
 
-> My own library for animation, state control and bundle purposes. Light and modern frontend tooltip with all you need for start!
+> Fun bot with music comand. Music commands made it with DisTube API.
 
 
 ## Where to start
