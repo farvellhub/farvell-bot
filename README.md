@@ -1,7 +1,25 @@
 # FarvellBot for Discord
 Fun bot with music comand. Music commands made it with DisTube API.
 
-# Where to start
+
+
+
+# Questions?
+
+If you have any questions, please feel free to contact me on discord Farvell⚡#3387.
+
+<h1 align="center">Welcome to JFlow Start Point👋</h1>
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.3-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg" />
+  </a>
+</p>
+
+> My own library for animation, state control and bundle purposes. Light and modern frontend tooltip with all you need for start!
+
+
+## Where to start
   step 1: Download the source code zip
   
   step 2: Extract it
@@ -15,7 +33,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   step 5: Run `node .`
 
-# Commands
+## Commands
 
 ### Music Commands
   `.play searchkeys:` play or add a song to the queue.
@@ -28,7 +46,7 @@ Fun bot with music comand. Music commands made it with DisTube API.
   
   `.volume [0-20]:` set new volume.
   
-Fun commands
+### Fun commands
   `.meme:` Show random meme from reddit.
   
   `.gif searchkeys:` Search gif on Tenor.
@@ -53,8 +71,14 @@ Fun commands
   `.alive @user:` Show user status.
 
 
+## Show your support
 
-# Questions?
+Give a ⭐️ if this project helped you!
+
+## Questions?
 
 If you have any questions, please feel free to contact me on discord Farvell⚡#3387.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
   
