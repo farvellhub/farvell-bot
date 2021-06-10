@@ -12,19 +12,20 @@
 > Fun bot with music comand. Music commands made it with DisTube API.
 
 
-## Where to start
-  step 1: Download the source code zip
-  
-  step 2: Extract it
-  
-  step 3: Run these command at the root directorie:
-  
-      $ npm init -y && npm install
+## Installation
+
+- npm install
       
+
+## Where to start
+
+-npm run start
+      
+ 
+## Token?
   
-  step 4: Create a .env file that will contain Discord token `TOKEN` and tenor key `TENORKEY`
-  
-  step 5: Run `node .`
+- Create a .env file that will contain Discord token `TOKEN` and tenor key `TENORKEY`.
+
 
 ## Commands
 
